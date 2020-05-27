@@ -2,19 +2,21 @@
     require 'config.php';
 
     $name = filter_input(INPUT_POST, 'name');
-    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+    $value = filter_input(INPUT_POST, 'value');
+    $city = filter_input(INPUT_POST, 'city');
 
-    if($name && $email){
+    if($name && $value && $city){
 
-        $sql = $pdo->prepare("INSERT INTO usuarios (nome, email) VALUES (:name, :email)");
+        $sql = $pdo->prepare("INSERT INTO usuarios (nome, divida, cidade) VALUES (:name, :value, :city)");
         $sql->bindValue(':name', $name);
-        $sql->bindValue(':email', $email);
+        $sql->bindValue(':value', $value);
+        $sql->bindValue(':city', $city);
         $sql->execute();
 
         header("Location: index.php");
         exit;
 
     } else {
-        header("LOcation: adicionar.php");
+        header("Location: adicionar.php");
         exit;
     }

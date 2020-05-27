@@ -10,10 +10,13 @@
                 <input type="text" class="form-control" name="name">
             </div>
             <div class="form-group">
-                <label>E-mail:</label>
-                <input type="email" class="form-control" name="email">
+                <label>Valor (em R$):</label>
+                <input type="number" class="form-control" name="value">
             </div>
-
+            <div class="form-group">
+                <label>Cidade:</label>
+                <input type="text" class="form-control" name="city">
+            </div>
             <button type="submit" class="btn btn-primary">Adcionar Caloteiro</button>
         </form>
     </div>
