@@ -16,7 +16,7 @@
             $sql->execute();
 
             $u->setId( $this->pdo->lastInsertId());
-            
+
             return $u;
         }
         public function findAll(){
@@ -40,10 +40,33 @@
             return $array;
         }
         public function findById($id){
+            $sql = $this->pdo->prepare("SELECT * FROM usuarios WHERE id = :id");
+            $sql->bindValue(':id', $id);
+            $sql->execute();
 
+            if($sql->rowCount() > 0){
+                $data = $sql->fetch();
+
+                $u = new Usuario();
+                $u->setId($data['id']);
+                $u->setNome($data['nome']);
+                $u->setDivida($data['divida']);
+                $u->setCidade($data['cidade']);
+
+                return $u;
+            } else {
+                return false;
+            }
         }
         public function update(Usuario $u){
+            $sql = $this->pdo->prepare("UPDATE usuarios SET nome = :nome, divida = :divida, cidade = :cidade WHERE id = :id");
+            $sql->bindValue(':nome', $u->getNome());
+            $sql->bindValue(':divida', $u->getDivida());
+            $sql->bindValue(':cidade', $u->getCidade());
+            $sql->bindValue(':id', $u->getId());
+            $sql->execute();
 
+            return true;
         }
         public function delete($id){
 

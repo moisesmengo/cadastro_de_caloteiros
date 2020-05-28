@@ -1,5 +1,8 @@
 <?php   
     require 'config.php';
+    require 'dao/UsuarioDAOMySQL.php';
+
+    $usuarioDao = new UsuarioDAOMySQL($pdo);
 
     $name = filter_input(INPUT_POST, 'name');
     $value = filter_input(INPUT_POST, 'value');
@@ -8,19 +11,17 @@
 
     if($name && $value && $city && $id){
 
-        $sql = $pdo->prepare("UPDATE usuarios SET nome = :name, divida = :value, cidade = :city WHERE id = :id");
-       
-        $sql->bindValue(':name', $name);
-        $sql->bindValue(':value', $value);
-        $sql->bindValue(':city', $city);
-        $sql->bindValue(':id', $id);
+        $usuario = $usuarioDao->findById($id);
+        $usuario->setNome($name);
+        $usuario->setDivida($value);
+        $usuario->setCidade($city);
 
-        $sql->execute();
+        $usuarioDao->update($usuario);
 
         header("Location: index.php");
         exit;
 
     } else {
-        header("Location: editar.php");
+        header("Location: editar.php?id=".$id);
         exit;
     }
