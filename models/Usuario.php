@@ -22,7 +22,7 @@
         public function  getDivida(){
             return $this->divida;
         }
-        public function setEmail($divida){
+        public function setDivida($divida){
             $this->divida = trim($divida);
         }
 
