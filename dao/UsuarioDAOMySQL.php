@@ -9,7 +9,15 @@
         }
         
         public function add(Usuario $u){
+            $sql = $this->pdo->prepare("INSERT INTO usuarios (nome, divida, cidade) VALUES (:nome, :divida, :cidade)");
+            $sql->bindValue(':nome', $u->getNome());
+            $sql->bindValue(':divida', $u->getDivida());
+            $sql->bindValue(':cidade', $u->getCidade());
+            $sql->execute();
 
+            $u->setId( $this->pdo->lastInsertId());
+            
+            return $u;
         }
         public function findAll(){
             $array = [];

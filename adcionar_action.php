@@ -1,5 +1,8 @@
 <?php   
     require 'config.php';
+    require 'dao/UsuarioDAOMySQL.php';
+
+    $usuarioDao = new UsuarioDAOMySQL($pdo);
 
     $name = filter_input(INPUT_POST, 'name');
     $value = filter_input(INPUT_POST, 'value');
@@ -7,11 +10,13 @@
 
     if($name && $value && $city){
 
-        $sql = $pdo->prepare("INSERT INTO usuarios (nome, divida, cidade) VALUES (:name, :value, :city)");
-        $sql->bindValue(':name', $name);
-        $sql->bindValue(':value', $value);
-        $sql->bindValue(':city', $city);
-        $sql->execute();
+        $novoUsuario = new Usuario();
+        
+        $novoUsuario->setNome($name);
+        $novoUsuario->setDivida($value);
+        $novoUsuario->setCidade($city);
+
+        $usuarioDao->add($novoUsuario);
 
         header("Location: index.php");
         exit;
